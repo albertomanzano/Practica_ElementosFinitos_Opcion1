@@ -13,9 +13,9 @@ all: main.o
 	mv ejecutable ./bin/ejecutable
 main.o: header.h point.h pelfin.h dato.h mesh.h point.cpp pelfin.cpp dato.cpp  main.cpp 
 	g++ -c -I $(HPATH) $(wildcard HEADERS)  -I ./src ./src/point.cpp 
-	g++ -c -I $(HPATH) $(wildcard HEADERS)  -I ./src ./src/pelfin.cpp 
+	g++ -c -I $(HPATH) $(wildcard HEADERS)  -I ./Eigen -I  ./src ./src/pelfin.cpp 
 	g++ -c -I $(HPATH) $(wildcard HEADERS)  -I ./src ./src/dato.cpp 
-	g++ -c -I $(HPATH) $(wildcard HEADERS)  -I ./src ./src/main.cpp 
+	g++ -c -I $(HPATH) $(wildcard HEADERS)  -I ./Eigen/ -I ./src ./src/main.cpp 
 	mv point.o ./build/point.o
 	mv pelfin.o ./build/pelfin.o
 	mv dato.o ./build/dato.o

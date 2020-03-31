@@ -16,11 +16,15 @@ class point{
 	
 	point();
 	point(double x,double y);
-	
-	void print_point();
-	double producto_escalar(point punto2);
-};
-  
+	point operator+(point const &punto);	
 
+	void print_point();
+	double producto_escalar(point &punto2);
+	double  producto_gradientes(point &punto2);
+	void calcula_punto_medio(const point &punto1,const point &punto2);
+};
+
+double determinante(const point &p1,const point &p2,const point &p3);
+double f(const point &p);
 
 #endif

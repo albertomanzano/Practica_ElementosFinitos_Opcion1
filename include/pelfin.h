@@ -1,3 +1,6 @@
+#include <Eigen/Dense>
+using Eigen::Matrix3d;
+using Eigen::MatrixXd;
 /*
  * Elemento finito P1
  */
@@ -19,6 +22,11 @@ class P1{
 	~P1();
 
         void print_finel();
+	void calcula_gradientes(point* &p);
+	void calcula_puntos_medios(point* &p);
+	double calcula_integral(point* &p,double (*funcion)(const point&));
+	void calcula_matriz_local(point* &p,Matrix3d &m);
+	void asigna_matriz_global(Matrix3d &m,MatrixXd &matriz_global);
 };
 
 #endif

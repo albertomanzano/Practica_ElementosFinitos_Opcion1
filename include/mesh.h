@@ -42,13 +42,16 @@ public :
     static int Nfinel; //Num de els finitos
     vector<point*> Lnode; // lista de  nodos 
     list<T> Lfinel; // lista de elementos 
-
+    MatrixXd matriz_global;
+    
     // Metodos
     Mfinel(); // constructor por defecto
     void fill_mesh(dato& datos); // rellena la malla
     void print_nodes();
     void print_elements(); 
-    void solve();  
+    void solve();
+    void construye_matriz_global();  
+	
 };
 
 
@@ -160,6 +163,30 @@ void Mfinel<T>::print_elements(){
        i++;
    }
    
+}
+template <typename T>
+void Mfinel<T>::construye_matriz_global(){
+   cout<<"Imprimimos los elementos del mallado"<<endl;
+   int i=0;
+   Matrix3d m;
+   matriz_global.resize(this->Nnodes,this->Nnodes);
+   matriz_global.setZero();
+   cout<<matriz_global<<endl;
+    // list<T>::iterator it; // MAL: iterator de lista de els. No conoce T
+   point *p = new point[3];
+   typename list<P1>::iterator it; // cuidado con el typename- si no lo ponemos no se entera en el iterador
+   for(it=this->Lfinel.begin(); it !=this->Lfinel.end(); ++it){  
+       cout<<"ELEMENTO "<<i<<endl;
+       it->print_finel(); // alternativamente  (*(*it)).print_points();
+       cout<<"Matriz de productos escalares"<<endl;
+       it->calcula_matriz_local(p,m); 
+       cout<<m<<endl;
+       cout<<"Matriz global"<<endl;
+       it->asigna_matriz_global(m,matriz_global);
+       cout<<matriz_global<<endl;
+       cout<<endl;
+       i++;
+   }
 }
 
 /*
