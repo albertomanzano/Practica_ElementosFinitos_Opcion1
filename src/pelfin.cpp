@@ -61,13 +61,30 @@ void P1::calcula_puntos_medios(point* &p){
 	p[2].calcula_punto_medio(*(this->V[1]),*(this->V[2]));
 }
 
-double P1::calcula_integral(point* &p, double (*f)(const point&) ){
-	double resultado = 0;
+// point: guarda los puntos medios calculados del triangulo,
+// de esta manera solo los tiene que guardar una vez
+// const point: le pasa la función término nohompgéneo de la 
+// ecuación
+//
+void P1::calcula_vector_local(point* &p,Vector3d &v, double (*f)(const point&)){
+	
 	this->calcula_puntos_medios(p);
+	v.setZero();
+
 	for (int i=0;i<3;i++){
-		resultado+=f(p[i]);
+		v[0]+=f(p[i])*determinante(p[i],*(this->V[1]),*(this->V[2]));
 	}
-	return (this->area*resultado/3);
+	v[0]*=this->area/3;
+	
+	for (int i=0;i<3;i++){
+		v[1]+=f(p[i])*determinante(p[i],*(this->V[2]),*(this->V[0]));
+	}
+	v[1]*=this->area/3;
+	
+	for (int i=0;i<3;i++){
+		v[2]+=f(p[i])*determinante(p[i],*(this->V[0]),*(this->V[1]));
+	}
+	v[2]*=this->area/3;
 }
 
 // La variable p permite guardar de manera auxiliar los gradientes
@@ -77,6 +94,12 @@ void P1::calcula_matriz_local(point* &p,Matrix3d &m){
 		for (int j=0;j<3;j++){
 			m(i,j) = (this->area)*(p[i].producto_escalar(p[j]));
 		}	
+	}
+}
+
+void P1::asigna_vector_global(Vector3d &v,VectorXd &vector_global){
+	for (int i = 0;i<3;i++){
+		vector_global(this->V[i]->ind-1)+=v(i);
 	}
 }
 

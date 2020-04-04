@@ -48,5 +48,10 @@ double determinante(const point &p1,const point &p2,const point &p3){
 }
 
 double f(const point &p){
-	return (p.x+p.y);
+	double resultado1, resultado2;
+	resultado1 = (1-p.x*p.x)*(2*p.x*p.x+12*p.y*p.y-5/2);
+	resultado2 = (1-p.y*p.y)*(12*p.x*p.x+2*p.y*p.y-5/2);
+	double res;
+        res = resultado1+resultado2;
+	return res;
 }

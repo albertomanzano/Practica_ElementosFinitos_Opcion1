@@ -28,7 +28,7 @@
 #include "dato.h"
 
 using namespace std;
-
+using namespace Eigen;
 
 class dato;
 
@@ -43,6 +43,7 @@ public :
     vector<point*> Lnode; // lista de  nodos 
     list<T> Lfinel; // lista de elementos 
     MatrixXd matriz_global;
+    VectorXd vector_global;
     
     // Metodos
     Mfinel(); // constructor por defecto
@@ -50,8 +51,8 @@ public :
     void print_nodes();
     void print_elements(); 
     void solve();
-    void construye_matriz_global();  
-	
+    void boundary_conditions();
+    void construye_matriz_global();  	
 };
 
 
@@ -80,22 +81,18 @@ void Mfinel<T>::fill_mesh(dato& datos){
    //  Rellenamos el vector de nodos
   this->Nnodes=0;
   ifstream myfile (datos.mallado.nodos.c_str()); // ojo!: es necesario convertir el string a pointeer de char con c_str
-  if (myfile.is_open())
+	while (myfile.good())
   {
- int control; 
-while (true)  {
-	myfile>>control;
-	if (myfile.eof()) break;
        point *node=new point();              // creo nuevo nodo
-       node->x = control;
-	myfile>>node->y;  // asigno coordenadas
-       this->Nnodes++;          // incrementamos el numero de nodos
+       myfile>>node->x>>node->y;
        // cout<<node.x<<" "<<node.y<<endl; // Imprimir a medida que leemos
-       this->Lnode.push_back( node); // insertamos nodo en lista-nodos
+       if (!node->y) break;
+       this->Nnodes++;       // incrementamos el numero de nodos
+       this->Lnode.push_back(node); // insertamos nodo en lista-nodos
 }
 
     myfile.close();
-  }
+  
 
  this->Nfinel=0.;
 
@@ -128,7 +125,6 @@ if (myfile.is_open()){
 	while (true){
 		myfile>>front;
 		if (myfile.eof()) break;
-		cout<<"Nodo frontera "<<front<<endl;
 		this->Lnode[front-1]->front = 1;
 		
 	}
@@ -168,36 +164,54 @@ template <typename T>
 void Mfinel<T>::construye_matriz_global(){
    cout<<"Imprimimos los elementos del mallado"<<endl;
    int i=0;
+
    Matrix3d m;
+   Vector3d v;
+
    matriz_global.resize(this->Nnodes,this->Nnodes);
    matriz_global.setZero();
-   cout<<matriz_global<<endl;
+   vector_global.resize(this->Nnodes);
+   vector_global.setZero();
+
     // list<T>::iterator it; // MAL: iterator de lista de els. No conoce T
    point *p = new point[3];
+
    typename list<P1>::iterator it; // cuidado con el typename- si no lo ponemos no se entera en el iterador
    for(it=this->Lfinel.begin(); it !=this->Lfinel.end(); ++it){  
-       cout<<"ELEMENTO "<<i<<endl;
-       it->print_finel(); // alternativamente  (*(*it)).print_points();
-       cout<<"Matriz de productos escalares"<<endl;
-       it->calcula_matriz_local(p,m); 
-       cout<<m<<endl;
-       cout<<"Matriz global"<<endl;
+       // cout<<"ELEMENTO "<<i<<endl;
+       //it->print_finel(); // alternativamente  (*(*it)).print_points();
+       it->calcula_matriz_local(p,m);
+       it->calcula_vector_local(p,v,f); 
        it->asigna_matriz_global(m,matriz_global);
-       cout<<matriz_global<<endl;
-       cout<<endl;
+       it->asigna_vector_global(v,vector_global);
        i++;
    }
 }
 
-/*
+template <typename T>
+void Mfinel<T>::boundary_conditions(){
+	for (int i=0;i<this->Nnodes;i++){
+		if (this->Lnode[i]->front == 1){
+			this->vector_global[i]=0;
+			this->matriz_global.row(i).setZero();
+			this->matriz_global(i,i) = 1;
+		}
+	}
+}
 template < typename T >
-void Mfinel<T>::solve(){
-   Matrix3f A;
-   Vector3f b;
-   A << 1,2,3,  4,5,6,  7,8,10;
-   b << 3, 3, 4;
-   cout << "Here is the matrix A:\n" << A << endl;
-   cout << "Here is the vector b:\n" << b << endl;
-   Vector3f x = A.colPivHouseholderQr().solve(b);
-   cout << "The solution is:\n" << x << endl;
-}*/
+void Mfinel<T>::solve(){ 
+
+   VectorXd x = (this->matriz_global.fullPivLu()).solve(this->vector_global);
+   double relative_error = (this->matriz_global*x-this->vector_global).norm()/this->vector_global.norm();
+   for (int i=0;i<this->Nnodes;i++) this->Lnode[i]->sol = x[i];
+   cout<<x<<endl; 
+    
+   ofstream outfile;
+   outfile.open("prueba.txt");
+   if (outfile.is_open()){
+   for (int i = 0;i<this->Nnodes;i++)
+   	outfile<<this->Lnode[i]->x<<" "<<this->Lnode[i]->y<<" "<<this->Lnode[i]->sol<<endl;
+   }else{
+	cout<<"Ha habido un problema"<<endl;
+   }
+}
