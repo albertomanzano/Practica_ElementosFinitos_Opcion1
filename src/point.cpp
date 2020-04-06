@@ -1,6 +1,6 @@
 #include "point.h"
 int puntos_creados = 0;
-
+// Constructors
 point::point(){
 	this->x = 8;
 	this->y = 0;
@@ -20,6 +20,7 @@ point::point(double x,double y){
 }
 
 
+// Functions
 point point::operator+(point const &p){
 	point resultado;
 	resultado.x = this->x+p.x;
@@ -33,7 +34,7 @@ void point::calcula_punto_medio(const point &p1,const point &p2){
 }
 
 void point::print_point(){
-    cout<<"("<<this->x<<","<<this->y<<")"<<"ind "<<this->ind<<" front "<<this->front<<endl; 
+    cout<<"("<<this->x<<","<<this->y<<")"<<" ind "<<this->ind<<endl; 
 }
 
 double point::producto_escalar(point &punto2){

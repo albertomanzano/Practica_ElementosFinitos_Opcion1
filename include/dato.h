@@ -1,3 +1,4 @@
+
 #ifndef __DATO_
 #define __DATO_
 

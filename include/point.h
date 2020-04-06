@@ -1,3 +1,28 @@
+// Class point
+//
+//
+// Authors: Alberto Manzano Herrero
+// ATTRIBUTES:
+// 	x: first coordinate
+// 	y: second coordinate
+// 	ind: index of given point
+// 	front: 1 if edge 0 otherwise
+//	sol: stores the solution in (x,y)
+// 
+// PUBLIC PROCEDURES:
+// 	point: constructor of the class
+//	point: copy constructor
+//	operator+: sums two points
+//
+//	print_point: prints the coordinates of the given point and it's global index
+// 	calcula_punto_medio: computes the midpoint of the two given points
+// 	producto_escalar: computes the scalar product of the two given points
+// 	
+// 	determinante: computes the determinant of the three given  points
+//	f: is the right side function of the PDE
+
+
+
 #ifndef __POINT_
 #define __POINT_
 
@@ -20,7 +45,6 @@ class point{
 
 	void print_point();
 	double producto_escalar(point &punto2);
-	double  producto_gradientes(point &punto2);
 	void calcula_punto_medio(const point &punto1,const point &punto2);
 };
 
