@@ -10,17 +10,19 @@
 // 	matriz_global: matrix A
 // 	vector_global: vector b
 //
-// PUBLIC PROCEDURES:
+// PUBLIC FUNCTIONS:
 //
-//	Mfinel: default constructor
+//	SPECIAL MEMBER FUNCTIONS
+//		Mfinel: default constructor
 //
-//	fill_mesh: fills the mesh by reading data from a list of points,
-//		   a list of finite elements and a list of boundary nodes
-//	print_nodes: print stored nodes
-//	print_elements: prints the finite elements stored
-//	boundary_conditions: inserts the boundary conditions into matrix A
-//	solve: solves the linear system Ax = b 
-//	construye_matriz_global: fills both A and b
+//	CLASS FUNCTIONS
+//		fill_mesh: fills the mesh by reading data from a list of points,
+//			   a list of finite elements and a list of boundary nodes
+//		print_nodes: print stored nodes
+//		print_elements: prints the finite elements stored
+//		boundary_conditions: inserts the boundary conditions into matrix A
+//		solve: solves the linear system Ax = b 
+//		construye_matriz_global: fills both A and b
 
 
 #include"header.h"
@@ -41,6 +43,7 @@ class Mfinel{
 
 
 public :
+    // ATTRIBUTES
     friend class dato;
     static int Nnodes;  
     static int Nfinel; 
@@ -49,8 +52,10 @@ public :
     MatrixXd matriz_global;
     VectorXd vector_global;
     
-    // Metodos
+    // SPECIAL MEMBER FUNCTIONS
     Mfinel(); 
+    
+    // CLASS FUNCTIONS
     void fill_mesh(dato& datos); 
     void print_nodes();
     void print_elements(); 
@@ -60,6 +65,7 @@ public :
 };
 
 
+// SPECIAL MEMBER FUNCTIONS
 template < typename T >
 Mfinel<T>::Mfinel(){
   vector<point*> Lnode;
@@ -80,6 +86,8 @@ template <typename T> int Mfinel<T>::Nfinel;
  * 
  * 
  */
+
+// FUNCTIONS
 template < typename T >
 void Mfinel<T>::fill_mesh(dato& datos){
   // Rellenamos lista de nodos

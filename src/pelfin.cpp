@@ -2,6 +2,7 @@
 #include "pelfin.h"
 #include "math.h"
 
+// SPECIAL MEMBER FUNCTIONS 
 P1::P1(){    
  this->N=3;
  this->V=new point*[3];
@@ -17,10 +18,25 @@ P1::P1(const P1 &triangulo){
 	this->calcula_area();
 }
 
+void P1::operator=(const P1 &triangulo){
+	this->V[0] = triangulo.V[0];
+	this->V[1] = triangulo.V[1];
+	this->V[2] = triangulo.V[2];
+	this->area = triangulo.area;
+}
+
 P1::~P1(){
 	delete[] this->V;
 }
 
+// PRIVATE FUNCTIONS
+void P1::calcula_area(){
+	double det;
+	det = determinante(*(this->V[0]),*(this->V[1]),*(this->V[2]));
+	this->area = 0.5*det;
+}
+
+// CLASS FUNCTIONS
 void P1::print_finel(){
     cout<<"---------------"<<endl;
     for (int k=0;k<(this->N);k++){
@@ -28,12 +44,6 @@ void P1::print_finel(){
     }
     cout<<"Area: "<<this->area<<endl;
     cout<<"---------------"<<endl;
-}
-
-void P1::calcula_area(){
-	double det;
-	det = determinante(*(this->V[0]),*(this->V[1]),*(this->V[2]));
-	this->area = 0.5*det;
 }
 
 void P1::calcula_gradientes(point* &p){

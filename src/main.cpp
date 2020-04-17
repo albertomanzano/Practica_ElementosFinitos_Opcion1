@@ -24,6 +24,7 @@ int main() {
 	//malla.print_elements(); // Imprimimos los elementos
 	malla.construye_matriz_global();
         malla.boundary_conditions();	
+	cout<<puntos_creados<<endl;
     	malla.solve();
 
 }

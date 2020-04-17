@@ -7,23 +7,28 @@
 //	V: pointer to array of pointers storing the direction of the points
 //	area: area of the given triangle
 // 
-// PUBLIC PROCEDURES:
+// PRIVATE FUNCTIONS:
+// 	calcula_area: calcula el area de un triangulo
 //
-//	P1: default constructor
-//	P1: copy constructor
-//	~P1: destructor
+// PUBLIC FUNCTIONS:
+//	
+//	SPECIAL MEMBER FUNCTIONS
+//		P1: default constructor
+//		P1: copy constructor
+//		~P1: destructor
 //
-//	print_finel: prints the points (using print_point) of the triangle
-//	calcula_puntos_medios: used to compute the integral of matrix A 
-//	calcula_gradientes: used to 
+//	CLASS FUNCTIONS
+//		print_finel: prints the points (using print_point) of the triangle
+//		calcula_puntos_medios: used to compute the integral of matrix A 
+//		calcula_gradientes: used to 
 //
-//	calcula_matriz_local: computes the contribution of the finite element
+//		calcula_matriz_local: computes the contribution of the finite element
 //			      to the global matrix A
-//	calcula_vector_local: computes the contribution of the finite element
+//		calcula_vector_local: computes the contribution of the finite element
 //			      to the vector b 
-//	asigna_matriz_local: adds the computation performed by calcula_matriz_local
+//		asigna_matriz_local: adds the computation performed by calcula_matriz_local
 //			     to the global matrix
-//	asigna_vector_local: adds the computation performed by calcula_vector_local
+//		asigna_vector_local: adds the computation performed by calcula_vector_local
 //			     to the global vector b
 //			       
 
@@ -39,16 +44,21 @@ using Eigen::VectorXd;
 
 class P1{
 	private:
+	// PRIVATE FUNCTIONS
 		void calcula_area();
    	public:
+	// ATTRIBUTES
 	    int N;
         point** V;
 	double area;
         
+	// SPECIAL MEMBER FUNCTIONS
 	P1();
 	P1(const P1 &triangulo);
+	void operator=(const P1 &triangulo);
 	~P1();
 
+	// CLASS FUNCTIONS
         void print_finel();
 
 	void calcula_puntos_medios(point* &p);

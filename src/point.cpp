@@ -1,6 +1,6 @@
 #include "point.h"
 int puntos_creados = 0;
-// Constructors
+// SPECIAL MEMBER FUNCTIONS
 point::point(){
 	this->x = 8;
 	this->y = 0;
@@ -20,7 +20,7 @@ point::point(double x,double y){
 }
 
 
-// Functions
+// CLASS FUNCTIONS 
 point point::operator+(point const &p){
 	point resultado;
 	resultado.x = this->x+p.x;
@@ -41,6 +41,7 @@ double point::producto_escalar(point &punto2){
 	return this->x*punto2.x+this->y*punto2.y;
 }
 
+// FUNCTIONS
 double determinante(const point &p1,const point &p2,const point &p3){
 	double aux1 = p2.x*p3.y-p2.y*p3.x;
 	double aux2 = p1.x*p3.y-p1.y*p3.x;
@@ -49,10 +50,9 @@ double determinante(const point &p1,const point &p2,const point &p3){
 }
 
 double f(const point &p){
-	double resultado1, resultado2;
+	double resultado, resultado1, resultado2;
 	resultado1 = (1-p.x*p.x)*(2*p.x*p.x+12*p.y*p.y-5/2);
 	resultado2 = (1-p.y*p.y)*(12*p.x*p.x+2*p.y*p.y-5/2);
-	double res;
-        res = resultado1+resultado2;
-	return res;
+        resultado = resultado1+resultado2;
+	return resultado;
 }
