@@ -17,6 +17,13 @@ P1::P1(const P1 &triangulo){
 	this->calcula_area();
 }
 
+void P1::operator=(const P1 &triangulo){
+	this->V[0] = triangulo.V[0];
+	this->V[1] = triangulo.V[1];
+	this->V[2] = triangulo.V[2];
+	this->area = triangulo.area;
+}
+
 P1::~P1(){
 	delete[] this->V;
 }
@@ -99,3 +106,4 @@ void P1::asigna_matriz_global(Matrix3d &m,MatrixXd &matriz_global){
 		}	
 	}
 }
+

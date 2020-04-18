@@ -47,6 +47,7 @@ class P1{
         
 	P1();
 	P1(const P1 &triangulo);
+	void operator=(const P1 &triangulo);
 	~P1();
 
         void print_finel();
