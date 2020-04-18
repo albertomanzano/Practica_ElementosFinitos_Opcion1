@@ -9,5 +9,5 @@ z = abs(z1-z2)
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-ax.plot_trisurf(x,y, z1)
+ax.plot_trisurf(x,y,z1)
 plt.show()

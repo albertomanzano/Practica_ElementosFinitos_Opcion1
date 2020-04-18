@@ -132,7 +132,7 @@ void Mfinel<T>::fill_mesh(dato& datos){
 	while (true){
 		myfile>>front;
 		if (myfile.eof()) break;
-		this->Lnode[front-1]->front = 1;
+		this->Lnode[front-1]->front = 0;
 		
 	}
 	myfile.close();
@@ -192,7 +192,7 @@ void Mfinel<T>::construye_matriz_global(){
 template <typename T>
 void Mfinel<T>::boundary_conditions(){
 	for (int i=0;i<this->Nnodes;i++){
-		if (this->Lnode[i]->front == 1){
+		if (this->Lnode[i]->front == 0){
 			this->vector_global[i]=0;
 			this->matriz_global.row(i).setZero();
 			this->matriz_global(i,i) = 1;

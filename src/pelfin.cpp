@@ -47,16 +47,16 @@ void P1::print_finel(){
 }
 
 void P1::calcula_gradientes(point* &p){
-	p[0].x = -(this->V[2]->y-this->V[1]->y)/(2*this->area);
-	p[0].y = (this->V[2]->x-this->V[1]->x)/(2*this->area);
+	p[0].x = -this->V[0]->front*(this->V[2]->y-this->V[1]->y)/(2*this->area);
+	p[0].y = this->V[0]->front*(this->V[2]->x-this->V[1]->x)/(2*this->area);
 	p[0].ind = this->V[0]->ind;
 
-	p[1].x = -(this->V[0]->y-this->V[2]->y)/(2*this->area);
-	p[1].y = (this->V[0]->x-this->V[2]->x)/(2*this->area);
+	p[1].x = -this->V[1]->front*(this->V[0]->y-this->V[2]->y)/(2*this->area);
+	p[1].y = this->V[1]->front*(this->V[0]->x-this->V[2]->x)/(2*this->area);
 	p[1].ind = this->V[1]->ind;
 
-	p[2].x = -(this->V[1]->y-this->V[0]->y)/(2*this->area);
-	p[2].y = (this->V[1]->x-this->V[0]->x)/(2*this->area);
+	p[2].x = -this->V[2]->front*(this->V[1]->y-this->V[0]->y)/(2*this->area);
+	p[2].y = this->V[2]->front*(this->V[1]->x-this->V[0]->x)/(2*this->area);
 	p[2].ind = this->V[2]->ind;
 }
 
@@ -74,17 +74,17 @@ void P1::calcula_vector_local(point* &p,Vector3d &v, double (*f)(const point&)){
 	for (int i=0;i<3;i++){
 		v[0]+=f(p[i])*determinante(p[i],*(this->V[1]),*(this->V[2]))/(2*this->area);
 	}
-	v[0]*=abs(this->area)/3;
+	v[0]*=this->V[0]->front*abs(this->area)/3;
 	
 	for (int i=0;i<3;i++){
 		v[1]+=f(p[i])*determinante(p[i],*(this->V[2]),*(this->V[0]))/(2*this->area);
 	}
-	v[1]*=abs(this->area)/3;
+	v[1]*=this->V[1]->front*abs(this->area)/3;
 	
 	for (int i=0;i<3;i++){
 		v[2]+=f(p[i])*determinante(p[i],*(this->V[0]),*(this->V[1]))/(2*this->area);
 	}
-	v[2]*=abs(this->area)/3;
+	v[2]*=this->V[2]->front*abs(this->area)/3;
 }
 
 void P1::calcula_matriz_local(point* &p,Matrix3d &m){
