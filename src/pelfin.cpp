@@ -109,3 +109,4 @@ void P1::asigna_matriz_global(Matrix3d &m,MatrixXd &matriz_global){
 		}	
 	}
 }
+
