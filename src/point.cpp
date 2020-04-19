@@ -6,7 +6,7 @@ point::point(){
 	this->y = 0;
 	puntos_creados++; 
 	this->ind = puntos_creados;
-	this->front = 1;
+	this->front = 0;
 	this->sol = 0;
 }
 
@@ -15,7 +15,7 @@ point::point(double x,double y){
 	this->y = y;
 	puntos_creados++;
 	this->ind = puntos_creados;
-	this->front = 1;
+	this->front = 0;
 	this->sol = 0;
 }
 
